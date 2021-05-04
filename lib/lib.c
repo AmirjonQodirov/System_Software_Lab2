@@ -25,18 +25,18 @@ char *read_hfsp(char *filename){
     fs = read_hfsplus(filename);
     char tmp[100] = {0};
     if (ERR == ERR_RESERVE) {
-	    sprintf(tmp, "\033[0;31mError while reading volume header: wrong reserved space\033[0m\n");
+	    sprintf(tmp, "Error while reading volume header: wrong reserved space\n");
 	    strcat(buff, tmp);
         buff[strlen(buff)-1] = '\0';
         return buff;
 	}
 	if (ERR == ERR_WRONG_STRUCTURE) {
-	    sprintf(tmp, "\033[0;31mError while reading fs: file system haven't hfs+ structure\033[0m\n");
+	    sprintf(tmp, "Error while reading fs: file system haven't hfs+ structure\n");
 	    strcat(buff, tmp);
         buff[strlen(buff)-1] = '\0';
         return buff;
 	}
-    sprintf(tmp, "\033[0;32mDONE!\033[0m\n");
+    sprintf(tmp, "DONE! \n");
 	strcat(buff, tmp);
     buff[strlen(buff)-1] = '\0';
     return buff;
@@ -52,17 +52,17 @@ char *show_ls(){
     char* bf[1000];
     uint32_t cnt = ls(fs, bf, is_file);
     char tmp[100] = {0};
-    sprintf(tmp,"\033[0;33m\n(type) | name\n-----  | ----    \n");
+    sprintf(tmp,"(type) | name\n-----  | ----    \n");
     strcat(buff,tmp);
     for (int i = 0; i < cnt; ++i) {
         if(*is_file == 0){
-            sprintf(tmp,"\033[0;34m(d)    | ");
+            sprintf(tmp,"(d)    | ");
             strcat(buff,tmp);
         }else if(*is_file == 1){
-            sprintf(tmp,"\033[0;36m(f)    | ");
+            sprintf(tmp,"(f)    | ");
             strcat(buff,tmp);
         }
-        sprintf(tmp,"%s\n\033[0m",bf[i]);
+        sprintf(tmp, "%s\n", bf[i]);
         strcat(buff,tmp);
     }
     buff[strlen(buff)-1] = '\0';
@@ -75,12 +75,12 @@ char *do_cd(char *folder){
     char *pwd = cd(fs, folder);
     if (pwd == NULL) {
         if (ERR == ERR_CANT_FIND) {
-            sprintf(tmp,"\033[0;31mWARNING during execution of command 'cd': No such file or directory\033[0m");
+            sprintf(tmp,"WARNING during execution of command 'cd': No such file or directory\n");
         } else if (ERR == ERR_FIND_FILE) {
-            sprintf(tmp,"\033[0;31mWARNING during execution of command 'cd': It is a file\033[0m");
+            sprintf(tmp,"WARNING during execution of command 'cd': It is a file\n");
         }
     } else {
-        sprintf(tmp,"\033[0;32m%s\033[0m",pwd);
+        sprintf(tmp, "%s\n", pwd);
     }
     strcat(buff,tmp);
     buff[strlen(buff)-1] = '\0';
@@ -92,9 +92,9 @@ char *do_back(){
     char tmp[100] = {0};
     char *pwd = back(fs);
     if (pwd == NULL && ERR == ERR_ON_ROOT) {
-        sprintf(tmp,"\033[0;31mWARNING during execution of command 'back': It is root!\033[0m");
+        sprintf(tmp,"WARNING during execution of command 'back': It is root!\n");
     } else {
-        sprintf(tmp,"\033[0;32m%s\033[0m", pwd);
+        sprintf(tmp, "%s\n", pwd);
     }
     strcat(buff,tmp);
     buff[strlen(buff)-1] = '\0';
@@ -106,9 +106,9 @@ char *do_copy(char *file, char *dest){
     char tmp[100] = {0};
     uint32_t res = copy(file, dest, fs);
     if (res < 0) {
-        sprintf(tmp, "\033[0;31mWARNING during execution of command 'copy'\033[0m");
+        sprintf(tmp, "WARNING during execution of command 'copy'\n");
     }else{
-        sprintf(tmp,"\033[0;32mDONE!\033[0m");
+        sprintf(tmp,"DONE! \n");
     }
     strcat(buff,tmp);
     buff[strlen(buff)-1] = '\0';
