@@ -12,15 +12,20 @@ $arr2 = $ffi->show_ls();
 $string1 = FFI::string($arr2);
 print($string1);
 
-
+/*
 $folder = 'a';
 $arr3 = $ffi->do_cd($folder);
 $string2 = FFI::string($arr3);
 print($string2);
+*/
 
-$arr4 = $ffi->do_back();
+$file = 'a';
+$dest = 'test/';
+$arr4 = $ffi->do_copy($file, $dest);
 $string3 = FFI::string($arr4);
 print($string3);
+
+
 
 
 ?>

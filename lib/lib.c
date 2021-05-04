@@ -94,7 +94,21 @@ char *do_back(){
     if (pwd == NULL && ERR == ERR_ON_ROOT) {
         sprintf(tmp,"\033[0;31mWARNING during execution of command 'back': It is root!\033[0m");
     } else {
-        sprintf(tmp,"\033[0;32m%s\033[0m",pwd);
+        sprintf(tmp,"\033[0;32m%s\033[0m", pwd);
+    }
+    strcat(buff,tmp);
+    buff[strlen(buff)-1] = '\0';
+    return buff;
+}
+
+char *do_copy(char *file, char *dest){
+    memset(buff,0,1000);
+    char tmp[100] = {0};
+    uint32_t res = copy(file, dest, fs);
+    if (res < 0) {
+        sprintf(tmp, "\033[0;31mWARNING during execution of command 'copy'\033[0m");
+    }else{
+        sprintf(tmp,"\033[0;32mDONE!\033[0m");
     }
     strcat(buff,tmp);
     buff[strlen(buff)-1] = '\0';
