@@ -68,3 +68,21 @@ char *show_ls(){
     buff[strlen(buff)-1] = '\0';
     return buff;
 }
+
+char *do_cd(char *folder){
+    memset(buff,0,1000);
+    char tmp[100] = {0};
+    char *pwd = cd(fs, folder);
+    if (pwd == NULL) {
+        if (ERR == ERR_CANT_FIND) {
+            sprintf(tmp,"\033[0;31mWARNING during execution of command 'cd': No such file or directory\033[0m");
+        } else if (ERR == ERR_FIND_FILE) {
+            sprintf(tmp,"\033[0;31mWARNING during execution of command 'cd': It is a file\033[0m");
+        }
+    } else {
+        sprintf(tmp,"\033[0;32m%s\033[0m",pwd);
+    }
+    strcat(buff,tmp);
+    buff[strlen(buff)-1] = '\0';
+    return buff;
+}
